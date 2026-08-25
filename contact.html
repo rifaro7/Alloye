@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Alloyé</title>
+  <link rel="icon" href="images/logo/alloye-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/pixel.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><img src="images/logo/alloye-icon.png" alt="Alloyé" class="logo-mark" /></a>
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=sets">Collections</a>
+        <a href="shop.html?filter=bestseller">Best Sellers</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-icons">
+        <a href="shop.html" aria-label="Search" class="search-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a href="wishlist.html" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span class="icon-badge" id="wishlist-count">0</span>
+        </a>
+        <a href="account.html" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </a>
+        <a href="cart.html" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="shop-header" style="padding-bottom:0;">
+      <p class="eyebrow">Get In Touch</p>
+      <h1>Contact Us</h1>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Email</h3>
+        <p>hello@alloye.com</p>
+
+        <h3>Phone / WhatsApp</h3>
+        <p>+880 1XXX-XXXXXX</p>
+
+        <h3>Hours</h3>
+        <p>Saturday - Thursday, 10am - 8pm<br />Friday: Closed</p>
+
+        <h3>Follow Us</h3>
+        <p>Instagram · Facebook</p>
+      </div>
+
+      <div>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="contactName">Name</label>
+            <input type="text" id="contactName" required />
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" required />
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+        </form>
+        <div id="contact-success" style="display:none; padding:20px; border:1px solid var(--color-border); text-align:center;">
+          <p>Thank you — your message has been received. We'll get back to you shortly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <a href="index.html" class="footer-logo-img"><img src="images/logo/alloye-logo.png" alt="Alloyé" /></a>
+          <p>Waterproof stainless steel jewellery for everyday elegance.</p>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">All Jewellery</a></li>
+            <li><a href="shop.html?filter=earrings">Earrings</a></li>
+            <li><a href="shop.html?filter=necklaces">Necklaces</a></li>
+            <li><a href="shop.html?filter=bracelets">Bracelets</a></li>
+            <li><a href="shop.html?filter=rings">Rings</a></li>
+            <li><a href="shop.html?filter=new">New Arrivals</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="shipping.html">Shipping</a></li>
+            <li><a href="returns.html">Returns</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="about.html">Our Story</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Alloyé. All rights reserved.</span>
+        <span>Cash on Delivery · bKash (Coming Soon)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      this.style.display = "none";
+      document.getElementById("contact-success").style.display = "block";
+    });
+  </script>
+</body>
+</html>

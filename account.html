@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account — Alloyé</title>
+  <link rel="icon" href="images/logo/alloye-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/pixel.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><img src="images/logo/alloye-icon.png" alt="Alloyé" class="logo-mark" /></a>
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=sets">Collections</a>
+        <a href="shop.html?filter=bestseller">Best Sellers</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-icons">
+        <a href="shop.html" aria-label="Search" class="search-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a href="wishlist.html" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span class="icon-badge" id="wishlist-count">0</span>
+        </a>
+        <a href="account.html" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </a>
+        <a href="cart.html" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="narrow-panel">
+      <h1 id="panel-title">Sign In</h1>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <p class="text-center" style="margin-top:16px; font-size:0.85rem; color:var(--color-text-soft);">
+          New here? <a href="#" id="show-register" style="text-decoration:underline; color:var(--color-text);">Create an account</a>
+        </p>
+      </form>
+
+      <form id="register-form" style="display:none;">
+        <div class="form-group">
+          <label for="registerName">Full Name</label>
+          <input type="text" id="registerName" required />
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Password</label>
+          <input type="password" id="registerPassword" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        <p class="text-center" style="margin-top:16px; font-size:0.85rem; color:var(--color-text-soft);">
+          Already have an account? <a href="#" id="show-login" style="text-decoration:underline; color:var(--color-text);">Sign in</a>
+        </p>
+      </form>
+
+      <div id="account-notice" style="display:none; margin-top:20px; padding:16px; border:1px solid var(--color-border); text-align:center; font-size:0.88rem; color:var(--color-text-soft);">
+        Accounts aren't active yet — this is a preview of the sign-in experience. In the meantime, you can check out as a guest and we'll still email your order confirmation.
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none; padding-top:0;">
+        <span>&copy; 2026 Alloyé. All rights reserved.</span>
+        <span>Cash on Delivery · bKash (Coming Soon)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const panelTitle = document.getElementById("panel-title");
+    const notice = document.getElementById("account-notice");
+
+    document.getElementById("show-register").addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
+      panelTitle.textContent = "Create Account";
+    });
+
+    document.getElementById("show-login").addEventListener("click", (e) => {
+      e.preventDefault();
+      registerForm.style.display = "none";
+      loginForm.style.display = "block";
+      panelTitle.textContent = "Sign In";
+    });
+
+    [loginForm, registerForm].forEach((form) => {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        notice.style.display = "block";
+      });
+    });
+  </script>
+</body>
+</html>

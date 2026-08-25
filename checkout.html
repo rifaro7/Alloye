@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Alloyé</title>
+  <link rel="icon" href="images/logo/alloye-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/pixel.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><img src="images/logo/alloye-icon.png" alt="Alloyé" class="logo-mark" /></a>
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=sets">Collections</a>
+        <a href="shop.html?filter=bestseller">Best Sellers</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-icons">
+        <a href="shop.html" aria-label="Search" class="search-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a href="wishlist.html" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span class="icon-badge" id="wishlist-count">0</span>
+        </a>
+        <a href="account.html" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </a>
+        <a href="cart.html" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="shop-header" style="padding-bottom:0;">
+      <h1>Checkout</h1>
+    </div>
+
+    <div id="checkout-filled">
+      <form class="cart-layout" id="checkout-form">
+        <div>
+          <div class="checkout-section">
+            <h2>Contact Information</h2>
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout-section">
+            <h2>Shipping Address</h2>
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="house">House / Flat</label>
+                <input type="text" id="house" required />
+              </div>
+              <div class="form-group">
+                <label for="road">Road</label>
+                <input type="text" id="road" required />
+              </div>
+              <div class="form-group">
+                <label for="area">Area</label>
+                <input type="text" id="area" required />
+              </div>
+            </div>
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" required />
+              </div>
+              <div class="form-group">
+                <label for="district">District</label>
+                <input type="text" id="district" required />
+              </div>
+              <div class="form-group">
+                <label for="postalCode">Postal Code</label>
+                <input type="text" id="postalCode" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout-section">
+            <h2>Delivery Method</h2>
+            <label class="option-card" id="delivery-inside">
+              <input type="radio" name="delivery" value="inside" checked />
+              <div class="option-card-body">
+                <div class="option-card-title"><span>Inside Dhaka</span><span>৳80</span></div>
+                <div class="option-card-desc">Delivered within 3-5 business days.</div>
+              </div>
+            </label>
+            <label class="option-card" id="delivery-outside">
+              <input type="radio" name="delivery" value="outside" />
+              <div class="option-card-body">
+                <div class="option-card-title"><span>Outside Dhaka</span><span>৳150</span></div>
+                <div class="option-card-desc">Delivered within 5-7 business days.</div>
+              </div>
+            </label>
+          </div>
+
+          <div class="checkout-section">
+            <h2>Payment Method</h2>
+            <label class="option-card selected" id="payment-cod">
+              <input type="radio" name="payment" value="cod" checked />
+              <div class="option-card-body">
+                <div class="option-card-title"><span>Cash on Delivery</span></div>
+                <div class="option-card-desc">Pay in cash when your order arrives.</div>
+              </div>
+            </label>
+            <label class="option-card disabled" id="payment-bkash">
+              <input type="radio" name="payment" value="bkash" disabled />
+              <div class="option-card-body">
+                <div class="option-card-title"><span>bKash</span><span class="coming-soon-tag">Coming Soon</span></div>
+                <div class="option-card-desc">Online bKash payments will be available soon.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="order-summary">
+          <h2>Order Summary</h2>
+          <div id="summary-items"></div>
+          <div class="summary-row"><span>Subtotal</span><span id="summary-subtotal">৳0</span></div>
+          <div class="summary-row"><span>Delivery</span><span id="summary-delivery">৳80</span></div>
+          <div class="summary-row total"><span>Total</span><span id="summary-total">৳0</span></div>
+          <button type="submit" class="btn btn-primary btn-block mt-40">Place Order</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="checkout-empty" class="empty-state" style="display:none;">
+      <h2>Your jewellery box is waiting.</h2>
+      <p>Add something to your cart before checking out.</p>
+      <a href="shop.html" class="btn btn-primary mt-40">Continue Shopping</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none; padding-top:0;">
+        <span>&copy; 2026 Alloyé. All rights reserved.</span>
+        <span>Cash on Delivery · bKash (Coming Soon)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const DELIVERY_FEES = { inside: 80, outside: 150 };
+
+    const cart = getCart();
+    const filledEl = document.getElementById("checkout-filled");
+    const emptyEl = document.getElementById("checkout-empty");
+
+    if (!cart.length) {
+      filledEl.style.display = "none";
+      emptyEl.style.display = "block";
+    } else {
+      filledEl.style.display = "block";
+      emptyEl.style.display = "none";
+      renderSummary();
+
+      trackPixelEvent("InitiateCheckout", {
+        value: getCartTotal(),
+        currency: "BDT",
+        num_items: cart.reduce((sum, item) => sum + item.qty, 0)
+      });
+    }
+
+    function renderSummary() {
+      const itemsEl = document.getElementById("summary-items");
+      itemsEl.innerHTML = cart.map((item) => {
+        const p = getProductById(item.id);
+        if (!p) return "";
+        return `
+          <div class="summary-item">
+            <span>${p.name}${item.style ? " — " + item.style : ""} <span class="qty">x${item.qty}</span></span>
+            <span>${formatPrice(p.price * item.qty)}</span>
+          </div>
+        `;
+      }).join("");
+
+      updateTotals();
+    }
+
+    function updateTotals() {
+      const subtotal = getCartTotal();
+      const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
+      const delivery = DELIVERY_FEES[deliveryMethod];
+      const total = subtotal + delivery;
+
+      document.getElementById("summary-subtotal").textContent = formatPrice(subtotal);
+      document.getElementById("summary-delivery").textContent = formatPrice(delivery);
+      document.getElementById("summary-total").textContent = formatPrice(total);
+    }
+
+    document.querySelectorAll('input[name="delivery"], input[name="payment"]').forEach((input) => {
+      input.addEventListener("change", () => {
+        document.querySelectorAll(".option-card").forEach((card) => {
+          const radio = card.querySelector("input");
+          card.classList.toggle("selected", radio.checked);
+        });
+        updateTotals();
+      });
+    });
+
+    document.getElementById("checkout-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const order = {
+        id: "ALY-" + Math.floor(10000 + Math.random() * 90000),
+        date: new Date().toISOString(),
+        customer: {
+          name: document.getElementById("fullName").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("phone").value
+        },
+        address: {
+          house: document.getElementById("house").value,
+          road: document.getElementById("road").value,
+          area: document.getElementById("area").value,
+          city: document.getElementById("city").value,
+          district: document.getElementById("district").value,
+          postalCode: document.getElementById("postalCode").value
+        },
+        deliveryMethod: document.querySelector('input[name="delivery"]:checked').value,
+        paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+        items: cart.map((item) => {
+          const p = getProductById(item.id);
+          return { id: item.id, name: p.name, style: item.style || null, price: p.price, qty: item.qty };
+        }),
+        subtotal: getCartTotal(),
+        delivery: DELIVERY_FEES[document.querySelector('input[name="delivery"]:checked').value],
+        total: getCartTotal() + DELIVERY_FEES[document.querySelector('input[name="delivery"]:checked').value]
+      };
+
+      const orders = JSON.parse(localStorage.getItem("alloye_orders") || "[]");
+      orders.push(order);
+      localStorage.setItem("alloye_orders", JSON.stringify(orders));
+
+      saveCart([]);
+
+      window.location.href = "order-confirmation.html?order=" + order.id;
+    });
+  </script>
+</body>
+</html>

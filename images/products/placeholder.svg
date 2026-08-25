@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="750" viewBox="0 0 600 750">
+  <rect width="600" height="750" fill="#f2ece2"/>
+  <g stroke="#ab8858" stroke-width="1.5" fill="none">
+    <circle cx="300" cy="330" r="70"/>
+    <path d="M230 330 a70 70 0 0 1 140 0" />
+  </g>
+  <text x="300" y="470" font-family="Georgia, serif" font-size="22" fill="#8a6c42" text-anchor="middle">Alloyé</text>
+  <text x="300" y="500" font-family="Georgia, serif" font-size="13" letter-spacing="2" fill="#6b6459" text-anchor="middle">PHOTO COMING SOON</text>
+</svg>
