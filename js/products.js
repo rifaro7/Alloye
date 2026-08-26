@@ -10,7 +10,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Kemp Stone",
     price: 1850,
     oldPrice: null,
-    image: "images/products/necklace-lotus-kemp-set.jpg",
+    image: "images/products/necklace-lotus-kemp-set.webp",
     badge: "New",
     featured: true,
     description:
@@ -25,7 +25,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 950,
     oldPrice: null,
-    image: "images/products/placeholder-ring-1.jpg",
+    image: "images/products/placeholder-ring-1.webp",
     badge: "Best Seller",
     featured: true,
     description:
@@ -40,7 +40,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 250,
     oldPrice: null,
-    image: "images/products/bracelet-shell-charm-jade.jpg",
+    image: "images/products/bracelet-shell-charm-jade.webp",
     badge: "New",
     featured: true,
     description:
@@ -55,7 +55,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 950,
     oldPrice: null,
-    image: "images/products/earring-puffed-heart.jpg",
+    image: "images/products/earring-puffed-heart.webp",
     badge: "New",
     featured: true,
     description:
@@ -70,7 +70,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Pearl",
     price: 2200,
     oldPrice: null,
-    image: "images/products/placeholder-set-1.jpg",
+    image: "images/products/placeholder-set-1.webp",
     badge: "New",
     featured: true,
     description:
@@ -85,7 +85,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1550,
     oldPrice: null,
-    image: "images/products/necklace-oval-link.jpg",
+    image: "images/products/necklace-oval-link.webp",
     badge: "New",
     featured: false,
     description:
@@ -100,7 +100,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1150,
     oldPrice: null,
-    image: "images/products/earring-spiral-swirl-hoop.jpg",
+    image: "images/products/earring-spiral-swirl-hoop.webp",
     badge: "New",
     featured: false,
     description:
@@ -115,7 +115,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1450,
     oldPrice: null,
-    image: "images/products/earring-golden-orchid.jpg",
+    image: "images/products/earring-golden-orchid.webp",
     badge: "New In",
     featured: false,
     description:
@@ -130,7 +130,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 850,
     oldPrice: null,
-    image: "images/products/earring-mini-stud-trio.jpg",
+    image: "images/products/earring-mini-stud-trio.webp",
     badge: "Best Seller",
     featured: false,
     description:
@@ -145,7 +145,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 850,
     oldPrice: null,
-    image: "images/products/placeholder-ring-2.jpg",
+    image: "images/products/placeholder-ring-2.webp",
     badge: "",
     featured: false,
     description:
@@ -160,7 +160,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Freshwater Pearl",
     price: 250,
     oldPrice: null,
-    image: "images/products/bracelet-shell-pearl-charm.jpg",
+    image: "images/products/bracelet-shell-pearl-charm.webp",
     badge: "New",
     featured: false,
     description:
@@ -175,7 +175,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 2600,
     oldPrice: 2900,
-    image: "images/products/placeholder-set-2.jpg",
+    image: "images/products/placeholder-set-2.webp",
     badge: "Limited Edition",
     featured: false,
     description:
@@ -190,7 +190,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Kemp Stone",
     price: 1950,
     oldPrice: null,
-    image: "images/products/necklace-floral-kemp-set.jpg",
+    image: "images/products/necklace-floral-kemp-set.webp",
     badge: "New",
     featured: false,
     description:
@@ -205,7 +205,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1250,
     oldPrice: null,
-    image: "images/products/necklace-seashell-charm.jpg",
+    image: "images/products/necklace-seashell-charm.webp",
     badge: "New",
     featured: true,
     description:
@@ -220,7 +220,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1050,
     oldPrice: null,
-    image: "images/products/necklace-spiral-pendant.jpg",
+    image: "images/products/necklace-spiral-pendant.webp",
     badge: "",
     featured: false,
     description:
@@ -235,7 +235,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 950,
     oldPrice: null,
-    image: "images/products/necklace-horseshoe-pendant.jpg",
+    image: "images/products/necklace-horseshoe-pendant.webp",
     badge: "",
     featured: false,
     description:
@@ -250,7 +250,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 2100,
     oldPrice: null,
-    image: "images/products/necklace-layered-set.jpg",
+    image: "images/products/necklace-layered-set.webp",
     badge: "New",
     featured: false,
     description:
@@ -265,7 +265,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1250,
     oldPrice: null,
-    image: "images/products/earring-hammered-dome-hoop.jpg",
+    image: "images/products/earring-hammered-dome-hoop.webp",
     badge: "",
     featured: false,
     description:
@@ -280,7 +280,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 950,
     oldPrice: null,
-    image: "images/products/earring-butterfly-trio-gold.jpg",
+    image: "images/products/earring-butterfly-trio-gold.webp",
     badge: "New",
     featured: false,
     description:
@@ -295,7 +295,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 950,
     oldPrice: null,
-    image: "images/products/earring-butterfly-trio-silver.jpg",
+    image: "images/products/earring-butterfly-trio-silver.webp",
     badge: "New",
     featured: false,
     description:
@@ -310,7 +310,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 750,
     oldPrice: null,
-    image: "images/products/earring-infinity-knot-stud.jpg",
+    image: "images/products/earring-infinity-knot-stud.webp",
     badge: "",
     featured: false,
     description:
@@ -325,7 +325,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 1550,
     oldPrice: null,
-    image: "images/products/earring-wave-pearl-hoop.jpg",
+    image: "images/products/earring-wave-pearl-hoop.webp",
     badge: "New",
     featured: true,
     description:
@@ -340,7 +340,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 2400,
     oldPrice: null,
-    image: "images/products/earring-hoop-stud-collection.jpg",
+    image: "images/products/earring-hoop-stud-collection.webp",
     badge: "New",
     featured: false,
     description:
@@ -355,7 +355,7 @@ const PRODUCTS = [
     material: "Stainless Steel",
     price: 80,
     oldPrice: null,
-    image: "images/products/ring-geometric-stacking-set.jpg",
+    image: "images/products/ring-geometric-stacking-set.webp",
     badge: "New",
     featured: false,
     styles: ["Toggle Ring", "Knot Ring", "Triangle Ring", "Fishbone Ring"],
@@ -371,7 +371,7 @@ const PRODUCTS = [
     material: "Stainless Steel, Cubic Zirconia",
     price: 250,
     oldPrice: null,
-    image: "images/products/bracelet-cz-tennis.jpg",
+    image: "images/products/bracelet-cz-tennis.webp",
     badge: "New",
     featured: true,
     styles: ["Clear Stone", "Rainbow Stone"],

@@ -236,7 +236,7 @@ h1, h2, h3, h4 {
   min-height: 640px;
   display: flex;
   align-items: center;
-  background: url("../images/hero/hero-banner.jpg") center center / cover no-repeat;
+  background: url("../images/hero/hero-banner.webp") center center / cover no-repeat;
   overflow: hidden;
 }
 
