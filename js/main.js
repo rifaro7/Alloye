@@ -24,12 +24,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const newsletterForm = document.querySelector(".newsletter-form");
   if (newsletterForm) {
-    newsletterForm.addEventListener("submit", function (e) {
+    newsletterForm.addEventListener("submit", async function (e) {
       e.preventDefault();
       const input = newsletterForm.querySelector("input");
-      if (input.value) {
+      const button = newsletterForm.querySelector("button");
+      if (!input.value) return;
+
+      button.disabled = true;
+      try {
+        const res = await fetch("subscribe.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: input.value })
+        });
+        const result = await res.json();
+        if (!res.ok || !result.success) throw new Error(result.error || "Failed");
+
         newsletterForm.innerHTML =
           '<p style="opacity:0.85;">Thank you for subscribing.</p>';
+      } catch (err) {
+        button.disabled = false;
+        button.textContent = "Try Again";
       }
     });
   }
