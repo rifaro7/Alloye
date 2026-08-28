@@ -46,10 +46,11 @@
   </header>
 
   <section class="container">
-    <div class="narrow-panel">
+    <div class="narrow-panel" id="guest-panel">
       <h1 id="panel-title">Sign In</h1>
 
       <form id="login-form">
+        <p id="login-error" style="display:none; color:#b3261e; font-size:0.9rem; margin-bottom:12px;"></p>
         <div class="form-group">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" required />
@@ -58,13 +59,14 @@
           <label for="loginPassword">Password</label>
           <input type="password" id="loginPassword" required />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">Sign In</button>
         <p class="text-center" style="margin-top:16px; font-size:0.85rem; color:var(--color-text-soft);">
           New here? <a href="#" id="show-register" style="text-decoration:underline; color:var(--color-text);">Create an account</a>
         </p>
       </form>
 
       <form id="register-form" style="display:none;">
+        <p id="register-error" style="display:none; color:#b3261e; font-size:0.9rem; margin-bottom:12px;"></p>
         <div class="form-group">
           <label for="registerName">Full Name</label>
           <input type="text" id="registerName" required />
@@ -75,17 +77,26 @@
         </div>
         <div class="form-group">
           <label for="registerPassword">Password</label>
-          <input type="password" id="registerPassword" required />
+          <input type="password" id="registerPassword" minlength="6" required />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        <button type="submit" class="btn btn-primary btn-block" id="register-btn">Create Account</button>
         <p class="text-center" style="margin-top:16px; font-size:0.85rem; color:var(--color-text-soft);">
           Already have an account? <a href="#" id="show-login" style="text-decoration:underline; color:var(--color-text);">Sign in</a>
         </p>
       </form>
+    </div>
 
-      <div id="account-notice" style="display:none; margin-top:20px; padding:16px; border:1px solid var(--color-border); text-align:center; font-size:0.88rem; color:var(--color-text-soft);">
-        Accounts aren't active yet — this is a preview of the sign-in experience. In the meantime, you can check out as a guest and we'll still email your order confirmation.
+    <div class="narrow-panel" id="account-panel" style="display:none; max-width:640px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h1 style="margin:0;">My Account</h1>
+        <button class="btn btn-outline" id="logout-btn" style="padding:8px 20px;">Log Out</button>
       </div>
+      <p id="welcome-text" style="color:var(--color-text-soft); margin-bottom:32px;"></p>
+
+      <h2 style="font-size:1.3rem; margin-bottom:16px;">My Orders</h2>
+      <div id="orders-loading">Loading your orders...</div>
+      <div id="orders-list"></div>
+      <div id="orders-empty" style="display:none; color:var(--color-text-soft);">You haven't placed any orders yet.</div>
     </div>
   </section>
 
@@ -102,10 +113,10 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
+    const WC_SITE = "https://cms.alloye.shop";
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
     const panelTitle = document.getElementById("panel-title");
-    const notice = document.getElementById("account-notice");
 
     document.getElementById("show-register").addEventListener("click", (e) => {
       e.preventDefault();
@@ -121,12 +132,163 @@
       panelTitle.textContent = "Sign In";
     });
 
-    [loginForm, registerForm].forEach((form) => {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        notice.style.display = "block";
-      });
+    loginForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("login-btn");
+      const errorEl = document.getElementById("login-error");
+      errorEl.style.display = "none";
+      btn.disabled = true;
+      btn.textContent = "Signing In...";
+
+      try {
+        const res = await fetch(`${WC_SITE}/wp-json/jwt-auth/v1/token`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value
+          })
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Invalid email or password.");
+
+        localStorage.setItem("alloye_token", result.token);
+        localStorage.setItem("alloye_user_name", result.user_display_name || result.user_nicename || "");
+        showAccountPanel();
+      } catch (err) {
+        errorEl.textContent = err.message.replace(/<[^>]*>/g, "");
+        errorEl.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Sign In";
+      }
     });
+
+    registerForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("register-btn");
+      const errorEl = document.getElementById("register-error");
+      errorEl.style.display = "none";
+      btn.disabled = true;
+      btn.textContent = "Creating Account...";
+
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+
+      try {
+        const res = await fetch("register.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: document.getElementById("registerName").value,
+            email: email,
+            password: password
+          })
+        });
+        const result = await res.json();
+        if (!res.ok || !result.success) throw new Error(result.error || "Could not create account.");
+
+        // Auto sign-in right after registering
+        const loginRes = await fetch(`${WC_SITE}/wp-json/jwt-auth/v1/token`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: email, password: password })
+        });
+        const loginResult = await loginRes.json();
+        if (loginRes.ok) {
+          localStorage.setItem("alloye_token", loginResult.token);
+          localStorage.setItem("alloye_user_name", loginResult.user_display_name || "");
+          showAccountPanel();
+        } else {
+          // Account created but auto-login failed — send them to sign in manually
+          registerForm.style.display = "none";
+          loginForm.style.display = "block";
+          panelTitle.textContent = "Sign In";
+        }
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Create Account";
+      }
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("alloye_token");
+      localStorage.removeItem("alloye_user_name");
+      document.getElementById("account-panel").style.display = "none";
+      document.getElementById("guest-panel").style.display = "block";
+    });
+
+    async function showAccountPanel() {
+      document.getElementById("guest-panel").style.display = "none";
+      const panel = document.getElementById("account-panel");
+      panel.style.display = "block";
+
+      const name = localStorage.getItem("alloye_user_name") || "";
+      document.getElementById("welcome-text").textContent = name ? `Welcome back, ${name}.` : "Welcome back.";
+
+      const loadingEl = document.getElementById("orders-loading");
+      const listEl = document.getElementById("orders-list");
+      const emptyEl = document.getElementById("orders-empty");
+      loadingEl.style.display = "block";
+      listEl.innerHTML = "";
+      emptyEl.style.display = "none";
+
+      try {
+        const res = await fetch("my-orders.php", {
+          headers: { Authorization: "Bearer " + localStorage.getItem("alloye_token") }
+        });
+        const result = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            localStorage.removeItem("alloye_token");
+            document.getElementById("account-panel").style.display = "none";
+            document.getElementById("guest-panel").style.display = "block";
+            return;
+          }
+          throw new Error(result.error || "Could not load orders.");
+        }
+
+        loadingEl.style.display = "none";
+
+        if (result.name) {
+          localStorage.setItem("alloye_user_name", result.name);
+          document.getElementById("welcome-text").textContent = `Welcome back, ${result.name}.`;
+        }
+
+        if (!result.orders.length) {
+          emptyEl.style.display = "block";
+          return;
+        }
+
+        listEl.innerHTML = result.orders.map((order) => {
+          const itemsText = order.items.map((i) => `${i.name} x${i.quantity}`).join(", ");
+          const date = new Date(order.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+          return `
+            <div style="border:1px solid var(--color-border); padding:18px 20px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <strong>Order #${order.id}</strong>
+                <span style="text-transform:capitalize; color:var(--color-text-soft);">${order.status}</span>
+              </div>
+              <div style="font-size:0.88rem; color:var(--color-text-soft); margin-bottom:6px;">${date}</div>
+              <div style="font-size:0.9rem; margin-bottom:6px;">${itemsText}</div>
+              <div style="font-weight:500;">${formatPrice(order.total)}</div>
+            </div>
+          `;
+        }).join("");
+      } catch (err) {
+        loadingEl.style.display = "none";
+        listEl.innerHTML = `<p style="color:#b3261e;">${err.message}</p>`;
+      }
+    }
+
+    // If already logged in, skip straight to the account panel
+    if (localStorage.getItem("alloye_token")) {
+      showAccountPanel();
+    }
   </script>
 </body>
 </html>

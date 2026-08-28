@@ -72,7 +72,20 @@ $firstName = $nameParts[0];
 $lastName = $nameParts[1] ?? "";
 $addressLine1 = trim(($addr["house"] ?? "") . ", " . ($addr["road"] ?? ""));
 
+// If this email belongs to a registered customer, link the order to their account
+$customerId = 0;
+$lookupCh = curl_init(WC_SITE . "/wp-json/wc/v3/customers?email=" . urlencode($customer["email"]));
+curl_setopt($lookupCh, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($lookupCh, CURLOPT_USERPWD, WC_KEY . ":" . WC_SECRET);
+curl_setopt($lookupCh, CURLOPT_TIMEOUT, 15);
+$lookupResponse = curl_exec($lookupCh);
+$matches = json_decode($lookupResponse, true);
+if (is_array($matches) && count($matches) > 0) {
+    $customerId = $matches[0]["id"];
+}
+
 $orderPayload = [
+    "customer_id" => $customerId,
     "payment_method" => "cod",
     "payment_method_title" => "Cash on Delivery",
     "set_paid" => false,
