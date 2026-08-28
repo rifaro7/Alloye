@@ -200,6 +200,19 @@
       </div>
     `;
 
+    const galleryMain = document.querySelector(".pd-gallery-main");
+    const mainImage = document.getElementById("pd-main-image");
+    galleryMain.addEventListener("mousemove", (e) => {
+      const rect = galleryMain.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      mainImage.style.transformOrigin = `${x}% ${y}%`;
+      galleryMain.classList.add("zoomed");
+    });
+    galleryMain.addEventListener("mouseleave", () => {
+      galleryMain.classList.remove("zoomed");
+    });
+
     function changeQty(delta) {
       const input = document.getElementById("qty-input");
       const val = Math.max(1, Number(input.value) + delta);

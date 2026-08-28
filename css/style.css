@@ -558,12 +558,19 @@ h1, h2, h3, h4 {
   background: var(--color-bg-soft);
   overflow: hidden;
   margin-bottom: 14px;
+  cursor: zoom-in;
 }
 
 .pd-gallery-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.15s ease-out;
+}
+
+.pd-gallery-main.zoomed img {
+  transform: scale(2.2);
+  transition: none;
 }
 
 .pd-thumbs {
