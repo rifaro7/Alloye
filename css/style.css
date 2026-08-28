@@ -225,39 +225,27 @@ h1, h2, h3, h4 {
 }
 
 .header-inner--centered {
-  position: relative;
-  justify-content: center;
+  justify-content: space-between;
   height: 90px;
 }
 
 .header-side {
   display: flex;
   align-items: center;
-  gap: 20px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  gap: 22px;
 }
 
-.header-side--left {
-  left: 0;
-}
-
-.header-side--right {
-  right: 0;
-}
-
-.logo--centered {
+.logo--header {
   display: flex;
   align-items: center;
   gap: 10px;
   font-family: var(--font-serif);
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   color: var(--color-white);
 }
 
-.logo--centered .logo-mark {
-  height: 28px;
+.logo--header .logo-mark {
+  height: 24px;
   width: auto;
 }
 
