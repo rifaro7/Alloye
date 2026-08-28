@@ -197,10 +197,10 @@ h1, h2, h3, h4 {
 
 .menu-toggle span {
   display: block;
-  width: 24px;
+  width: 19px;
   height: 1.5px;
   background: var(--color-text);
-  margin: 5px 0;
+  margin: 3.5px 0;
   transition: 0.25s ease;
 }
 
@@ -227,6 +227,7 @@ h1, h2, h3, h4 {
 .header-inner--centered {
   justify-content: space-between;
   height: 90px;
+  padding: 0 32px;
 }
 
 .header-side {
