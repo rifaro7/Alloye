@@ -354,6 +354,13 @@ h1, h2, h3, h4 {
   padding: 105px 32px 0;
 }
 
+.hero-actions--bottom {
+  position: absolute;
+  left: 32px;
+  bottom: 40px;
+  z-index: 2;
+}
+
 
 .hero-content .eyebrow {
   color: var(--color-white);
