@@ -305,7 +305,7 @@ h1, h2, h3, h4 {
   position: relative;
   min-height: 640px;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   background: url("../images/hero/hero-banner.webp") center center / cover no-repeat;
   overflow: hidden;
 }
@@ -322,7 +322,7 @@ h1, h2, h3, h4 {
   position: relative;
   z-index: 2;
   max-width: 620px;
-  padding: 0 32px 60px;
+  padding: 130px 32px 0;
 }
 
 .hero-content .eyebrow {
