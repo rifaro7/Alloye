@@ -3,19 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wishlist — Alloyé</title>
-  <meta name="description" content="Your saved favourites at Alloyé." />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Wishlist — Alloyé" />
-  <meta property="og:description" content="Your saved favourites at Alloyé." />
-  <meta property="og:image" content="https://alloye.shop/images/hero/hero-banner.webp" />
-  <meta property="og:url" content="https://alloye.shop/wishlist.html" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <title>Page Not Found — Alloyé</title>
+  <meta name="robots" content="noindex" />
   <link rel="icon" href="images/logo/alloye-mark.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <script src="js/pixel.js"></script>
 </head>
 <body>
 
@@ -53,17 +46,11 @@
   </header>
 
   <section class="container">
-    <div class="shop-header" style="padding-bottom:0;">
-      <h1>Your Wishlist</h1>
-    </div>
-
-    <div class="section">
-      <div class="product-grid" id="wishlist-grid"></div>
-      <div class="empty-state" id="wishlist-empty" style="display:none;">
-        <h2>Your wishlist is empty.</h2>
-        <p>Save pieces you love to find them here later.</p>
-        <a href="shop.html" class="btn btn-primary mt-40">Continue Shopping</a>
-      </div>
+    <div class="empty-state">
+      <p class="eyebrow" style="color:var(--color-gold-dark);">404</p>
+      <h2 style="font-size:2rem; margin-bottom:14px;">This page has wandered off.</h2>
+      <p style="margin-bottom:30px;">The page you're looking for doesn't exist, or may have moved.</p>
+      <a href="index.html" class="btn btn-primary">Back to Home</a>
     </div>
   </section>
 
@@ -79,55 +66,5 @@
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
-  <script>
-    function renderWishlist() {
-      const ids = getWishlist();
-      const grid = document.getElementById("wishlist-grid");
-      const emptyEl = document.getElementById("wishlist-empty");
-
-      if (!ids.length) {
-        grid.style.display = "none";
-        emptyEl.style.display = "block";
-        return;
-      }
-
-      grid.style.display = "grid";
-      emptyEl.style.display = "none";
-
-      const items = ids.map(getProductById).filter(Boolean);
-      grid.innerHTML = items.map(renderProductCard).join("");
-    }
-
-    function renderProductCard(p) {
-      const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : "";
-      const oldPrice = p.oldPrice ? `<span class="old-price">${formatPrice(p.oldPrice)}</span>` : "";
-      return `
-        <div class="product-card">
-          <a href="product.html?id=${p.id}">
-            <div class="product-image">
-              ${badge}
-              <img src="${p.image}" alt="${p.name}" onerror="this.src='images/products/placeholder.svg'" />
-            </div>
-          </a>
-          <button class="wishlist-toggle active" onclick="handleRemove(event, ${p.id})">&#9825;</button>
-          <div class="product-info">
-            <a href="product.html?id=${p.id}"><h3>${p.name}</h3></a>
-            <p class="price">${oldPrice}${formatPrice(p.price)}</p>
-            <div class="product-actions">
-              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function handleRemove(e, id) {
-      e.preventDefault();
-      toggleWishlist(id);
-      renderWishlist();
-    }
-
-    renderWishlist();
-  </script>
 </body>
 </html>

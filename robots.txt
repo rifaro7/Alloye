@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /account.html
+Disallow: /order-confirmation.html
+
+Sitemap: https://alloye.shop/sitemap.xml
