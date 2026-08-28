@@ -1,6 +1,7 @@
 <?php
 header("Content-Type: application/json");
 require __DIR__ . "/config.php";
+require __DIR__ . "/smtp-mailer.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -35,12 +36,7 @@ if (!$alreadySubscribed) {
     $row = '"' . str_replace('"', '""', $email) . '","' . date("Y-m-d H:i:s") . '"' . "\n";
     file_put_contents($file, $row, FILE_APPEND | LOCK_EX);
 
-    mail(
-        STORE_EMAIL,
-        "New newsletter subscriber — Alloyé",
-        "New subscriber: $email",
-        "From: Alloyé Website <no-reply@alloye.shop>\r\n"
-    );
+    smtpSendMail(STORE_EMAIL, "New newsletter subscriber — Alloyé", "New subscriber: $email");
 }
 
 echo json_encode(["success" => true]);

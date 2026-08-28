@@ -1,6 +1,7 @@
 <?php
 header("Content-Type: application/json");
 require __DIR__ . "/config.php";
+require __DIR__ . "/smtp-mailer.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -22,10 +23,8 @@ if (!$name || !filter_var($email, FILTER_VALIDATE_EMAIL) || !$message) {
 
 $subject = "New message from $name — Alloyé website";
 $body_text = "Name: $name\nEmail: $email\n\nMessage:\n$message";
-$headers = "From: Alloyé Website <no-reply@alloye.shop>\r\n" .
-           "Reply-To: " . $email . "\r\n";
 
-$sent = mail(STORE_EMAIL, $subject, $body_text, $headers);
+$sent = smtpSendMail(STORE_EMAIL, $subject, $body_text, $email);
 
 if (!$sent) {
     http_response_code(502);
