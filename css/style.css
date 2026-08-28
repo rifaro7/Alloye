@@ -204,6 +204,81 @@ h1, h2, h3, h4 {
   transition: 0.25s ease;
 }
 
+.menu-toggle--visible {
+  display: block;
+}
+
+/* Overlay header (used on the homepage hero) */
+.site-header--overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: transparent;
+  border-bottom: none;
+  color: var(--color-white);
+}
+
+.site-header--overlay .menu-toggle span {
+  background: var(--color-white);
+}
+
+.header-inner--centered {
+  position: relative;
+  justify-content: center;
+  height: 90px;
+}
+
+.header-side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header-side--left {
+  left: 0;
+}
+
+.header-side--right {
+  right: 0;
+}
+
+.logo--centered {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.site-header--overlay .main-nav a {
+  color: var(--color-text);
+}
+
+.site-header--overlay .main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  transform: translateY(-110%);
+  transition: transform 0.3s ease;
+  z-index: 30;
+}
+
+.site-header--overlay .main-nav.open {
+  transform: translateY(0);
+}
+
 /* ===== Mobile Nav ===== */
 @media (max-width: 900px) {
   .main-nav {

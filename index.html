@@ -20,9 +20,29 @@
 <body>
 
   <!-- Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo"><img src="images/logo/alloye-icon.png" alt="Alloyé" class="logo-mark" /></a>
+  <header class="site-header site-header--overlay">
+    <div class="container header-inner header-inner--centered">
+      <div class="header-side header-side--left">
+        <button class="menu-toggle menu-toggle--visible" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="shop.html" aria-label="Search" class="search-toggle">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+      </div>
+
+      <a href="index.html" class="logo logo--centered">Alloyé</a>
+
+      <div class="header-side header-side--right">
+        <a href="wishlist.html" aria-label="Wishlist">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span class="icon-badge" id="wishlist-count">0</span>
+        </a>
+        <a href="cart.html" aria-label="Cart">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
+      </div>
 
       <nav class="main-nav" id="main-nav">
         <a href="index.html" class="active">Home</a>
@@ -31,27 +51,8 @@
         <a href="shop.html?filter=sets">Collections</a>
         <a href="shop.html?filter=bestseller">Best Sellers</a>
         <a href="about.html">About</a>
+        <a href="account.html">Account</a>
       </nav>
-
-      <div class="header-icons">
-        <a href="shop.html" aria-label="Search" class="search-toggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </a>
-        <a href="wishlist.html" aria-label="Wishlist">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-          <span class="icon-badge" id="wishlist-count">0</span>
-        </a>
-        <a href="account.html" aria-label="Account">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
-        </a>
-        <a href="cart.html" aria-label="Cart">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
-          <span class="icon-badge" id="cart-count">0</span>
-        </a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
     </div>
   </header>
 
