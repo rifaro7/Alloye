@@ -558,19 +558,18 @@ h1, h2, h3, h4 {
   background: var(--color-bg-soft);
   overflow: hidden;
   margin-bottom: 14px;
-  cursor: zoom-in;
 }
 
 .pd-gallery-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.15s ease-out;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .pd-gallery-main.zoomed img {
-  transform: scale(2.2);
-  transition: none;
+  transform: scale(1.7);
+  transition: transform 0.08s linear;
 }
 
 .pd-thumbs {
