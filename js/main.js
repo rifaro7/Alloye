@@ -3,16 +3,25 @@
 document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.getElementById("menu-toggle");
   const mainNav = document.getElementById("main-nav");
+  const navBackdrop = document.getElementById("nav-backdrop");
+  const navClose = document.getElementById("nav-close");
 
   if (menuToggle && mainNav) {
+    function closeNav() {
+      mainNav.classList.remove("open");
+      if (navBackdrop) navBackdrop.classList.remove("open");
+    }
+
     menuToggle.addEventListener("click", function () {
       mainNav.classList.toggle("open");
+      if (navBackdrop) navBackdrop.classList.toggle("open");
     });
 
+    if (navClose) navClose.addEventListener("click", closeNav);
+    if (navBackdrop) navBackdrop.addEventListener("click", closeNav);
+
     mainNav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        mainNav.classList.remove("open");
-      });
+      link.addEventListener("click", closeNav);
     });
   }
 
