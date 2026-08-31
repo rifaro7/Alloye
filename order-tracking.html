@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Order — Alloyé</title>
+  <meta name="description" content="Track your Alloyé order." />
+  <link rel="icon" href="images/logo/alloye-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/pixel.js"></script>
+  <style>
+    .track-timeline {
+      display: flex;
+      justify-content: space-between;
+      margin: 40px 0 50px;
+      position: relative;
+    }
+    .track-timeline::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 7%;
+      right: 7%;
+      height: 2px;
+      background: var(--color-border);
+      z-index: 0;
+    }
+    .track-timeline .fill-line {
+      position: absolute;
+      top: 14px;
+      left: 7%;
+      height: 2px;
+      background: var(--color-gold-dark, #b08d57);
+      z-index: 1;
+      transition: width 0.3s ease;
+    }
+    .track-step {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      text-align: center;
+    }
+    .track-step .dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--color-border);
+      color: var(--color-text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    .track-step.done .dot {
+      background: var(--color-gold-dark, #b08d57);
+      border-color: var(--color-gold-dark, #b08d57);
+      color: #fff;
+    }
+    .track-step .label {
+      font-size: 0.82rem;
+      color: var(--color-text-soft);
+    }
+    .track-step.done .label {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+    .track-cancelled {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #b3261e;
+      color: #b3261e;
+      margin: 40px 0 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><img src="images/logo/alloye-icon.png" alt="Alloyé" class="logo-mark" /></a>
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=sets">Collections</a>
+        <a href="shop.html?filter=bestseller">Best Sellers</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-icons">
+        <a href="shop.html" aria-label="Search" class="search-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <a href="wishlist.html" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span class="icon-badge" id="wishlist-count">0</span>
+        </a>
+        <a href="account.html" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </a>
+        <a href="cart.html" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="container" style="max-width:640px; margin:0 auto; padding-bottom:80px;">
+    <div class="shop-header" style="padding-bottom:0;">
+      <h1>Track Order</h1>
+    </div>
+
+    <div id="track-loading" style="text-align:center; padding:60px 0; color:var(--color-text-soft);">Loading order status...</div>
+
+    <div id="track-signin" style="display:none; text-align:center; padding:40px 0;">
+      <p style="color:var(--color-text-soft); margin-bottom:20px;">Please sign in to track your order.</p>
+      <a href="account.html" class="btn btn-primary">Sign In</a>
+    </div>
+
+    <div id="track-notfound" style="display:none; text-align:center; padding:40px 0;">
+      <p style="color:var(--color-text-soft); margin-bottom:20px;">We couldn't find that order on your account.</p>
+      <a href="account.html" class="btn btn-primary">View My Orders</a>
+    </div>
+
+    <div id="track-content" style="display:none;">
+      <p class="eyebrow" style="text-align:center; color:var(--color-gold-dark);">Order #<span id="track-order-id"></span></p>
+      <p style="text-align:center; color:var(--color-text-soft); font-size:0.9rem;" id="track-order-date"></p>
+
+      <div id="track-active-block">
+        <div class="track-timeline" id="track-timeline"></div>
+      </div>
+
+      <div id="track-cancelled-block" style="display:none;">
+        <div class="track-cancelled" id="track-cancelled-text"></div>
+      </div>
+
+      <div class="order-summary">
+        <h2>Items</h2>
+        <div id="track-items"></div>
+        <div class="summary-row total"><span>Total</span><span id="track-total"></span></div>
+      </div>
+
+      <div class="hero-actions" style="justify-content:center; margin-top:30px;">
+        <a href="account.html" class="btn btn-outline">View All Orders</a>
+        <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none; padding-top:0;">
+        <span>&copy; 2026 Alloyé. All rights reserved.</span>
+        <span>Cash on Delivery · bKash (Coming Soon)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const WC_SITE = "https://cms.alloye.shop";
+    const token = localStorage.getItem("alloye_token");
+
+    const loadingEl = document.getElementById("track-loading");
+    const signinEl = document.getElementById("track-signin");
+    const notfoundEl = document.getElementById("track-notfound");
+    const contentEl = document.getElementById("track-content");
+
+    const STEPS = ["Order Placed", "Processing", "Delivered"];
+
+    function renderTimeline(status) {
+      const timelineEl = document.getElementById("track-timeline");
+      const activeBlock = document.getElementById("track-active-block");
+      const cancelledBlock = document.getElementById("track-cancelled-block");
+
+      if (["cancelled", "refunded", "failed"].includes(status)) {
+        activeBlock.style.display = "none";
+        cancelledBlock.style.display = "block";
+        const label = status === "refunded" ? "This order was refunded." : status === "failed" ? "This order could not be processed." : "This order was cancelled.";
+        document.getElementById("track-cancelled-text").textContent = label;
+        return;
+      }
+
+      let doneCount = 1; // "Order Placed" is always true once an order exists
+      if (["processing", "on-hold", "completed"].includes(status)) doneCount = 2;
+      if (status === "completed") doneCount = 3;
+
+      const fillPercent = ((doneCount - 1) / (STEPS.length - 1)) * 86;
+      timelineEl.innerHTML = `<div class="fill-line" style="width:${fillPercent}%"></div>` +
+        STEPS.map((label, i) => `
+          <div class="track-step ${i < doneCount ? "done" : ""}">
+            <div class="dot">${i < doneCount ? "&#10003;" : i + 1}</div>
+            <div class="label">${label}</div>
+          </div>
+        `).join("");
+    }
+
+    async function init() {
+      if (!token) {
+        loadingEl.style.display = "none";
+        signinEl.style.display = "block";
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get("order");
+
+      try {
+        const res = await fetch("my-orders.php", {
+          headers: { Authorization: "Bearer " + token }
+        });
+        const result = await res.json();
+
+        if (!res.ok) {
+          loadingEl.style.display = "none";
+          signinEl.style.display = "block";
+          return;
+        }
+
+        const order = result.orders.find((o) => String(o.id) === String(orderId));
+
+        loadingEl.style.display = "none";
+
+        if (!order) {
+          notfoundEl.style.display = "block";
+          return;
+        }
+
+        contentEl.style.display = "block";
+        document.getElementById("track-order-id").textContent = order.id;
+        document.getElementById("track-order-date").textContent = new Date(order.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+        document.getElementById("track-items").innerHTML = order.items.map((i) => `
+          <div class="summary-item"><span>${i.name} <span class="qty">x${i.quantity}</span></span></div>
+        `).join("");
+        document.getElementById("track-total").textContent = formatPrice(order.total);
+
+        renderTimeline(order.status);
+      } catch (err) {
+        loadingEl.style.display = "none";
+        notfoundEl.style.display = "block";
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

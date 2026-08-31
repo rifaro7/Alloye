@@ -283,7 +283,10 @@
               </div>
               <div style="font-size:0.88rem; color:var(--color-text-soft); margin-bottom:6px;">${date}</div>
               <div style="font-size:0.9rem; margin-bottom:6px;">${itemsText}</div>
-              <div style="font-weight:500;">${formatPrice(order.total)}</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:500;">${formatPrice(order.total)}</span>
+                <a href="order-tracking.html?order=${order.id}" style="font-size:0.85rem; text-decoration:underline;">Track Order</a>
+              </div>
             </div>
           `;
         }).join("");
