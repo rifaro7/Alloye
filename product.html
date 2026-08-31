@@ -122,9 +122,60 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
+    function changeQty(delta) {
+      const input = document.getElementById("qty-input");
+      const val = Math.max(1, Number(input.value) + delta);
+      input.value = val;
+    }
+
+    function addProductToCart() {
+      const qty = Number(document.getElementById("qty-input").value);
+      const styleSelect = document.getElementById("style-select");
+      const style = styleSelect ? styleSelect.value : null;
+      addToCart(product.id, qty, style);
+    }
+
+    function buyNow() {
+      addProductToCart();
+      window.location.href = "cart.html";
+    }
+
+    function handleWishlistClick(e, id) {
+      e.preventDefault();
+      const active = toggleWishlist(id);
+      e.currentTarget.classList.toggle("active", active);
+    }
+
+    function renderProductCard(p) {
+      const w = isWishlisted(p.id) ? "active" : "";
+      const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : "";
+      const old = p.oldPrice ? `<span class="old-price">${formatPrice(p.oldPrice)}</span>` : "";
+      return `
+        <div class="product-card">
+          <a href="product.html?id=${p.id}">
+            <div class="product-image">
+              ${badge}
+              <img src="${p.image}" alt="${p.name}" onerror="this.src='images/products/placeholder.svg'" />
+            </div>
+          </a>
+          <button class="wishlist-toggle ${w}" onclick="handleWishlistClick(event, ${p.id})">&#9825;</button>
+          <div class="product-info">
+            <a href="product.html?id=${p.id}"><h3>${p.name}</h3></a>
+            <p class="price">${old}${formatPrice(p.price)}</p>
+            <div class="product-actions">
+              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    let product;
+
+    loadProducts().then(() => {
     const params = new URLSearchParams(window.location.search);
     const productId = Number(params.get("id")) || PRODUCTS[0].id;
-    const product = getProductById(productId) || PRODUCTS[0];
+    product = getProductById(productId) || PRODUCTS[0];
 
     document.getElementById("page-title").textContent = product.name + " — Alloyé";
 
@@ -213,59 +264,13 @@
       galleryMain.classList.remove("zoomed");
     });
 
-    function changeQty(delta) {
-      const input = document.getElementById("qty-input");
-      const val = Math.max(1, Number(input.value) + delta);
-      input.value = val;
-    }
-
-    function addProductToCart() {
-      const qty = Number(document.getElementById("qty-input").value);
-      const styleSelect = document.getElementById("style-select");
-      const style = styleSelect ? styleSelect.value : null;
-      addToCart(product.id, qty, style);
-    }
-
-    function buyNow() {
-      addProductToCart();
-      window.location.href = "cart.html";
-    }
-
-    function handleWishlistClick(e, id) {
-      const active = toggleWishlist(id);
-      e.currentTarget.classList.toggle("active", active);
-    }
-
     // Related products
     const relatedGrid = document.getElementById("related-grid");
     const related = PRODUCTS.filter(
       (p) => p.category === product.category && p.id !== product.id
     ).slice(0, 4);
     relatedGrid.innerHTML = related.map(renderProductCard).join("");
-
-    function renderProductCard(p) {
-      const w = isWishlisted(p.id) ? "active" : "";
-      const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : "";
-      const old = p.oldPrice ? `<span class="old-price">${formatPrice(p.oldPrice)}</span>` : "";
-      return `
-        <div class="product-card">
-          <a href="product.html?id=${p.id}">
-            <div class="product-image">
-              ${badge}
-              <img src="${p.image}" alt="${p.name}" onerror="this.src='images/products/placeholder.svg'" />
-            </div>
-          </a>
-          <button class="wishlist-toggle ${w}" onclick="handleWishlistClick(event, ${p.id})">&#9825;</button>
-          <div class="product-info">
-            <a href="product.html?id=${p.id}"><h3>${p.name}</h3></a>
-            <p class="price">${old}${formatPrice(p.price)}</p>
-            <div class="product-actions">
-              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+    });
   </script>
 </body>
 </html>

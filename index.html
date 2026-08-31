@@ -229,9 +229,11 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
-    const featuredGrid = document.getElementById("featured-grid");
-    const featured = PRODUCTS.filter((p) => p.featured);
-    featuredGrid.innerHTML = featured.map(renderProductCard).join("");
+    loadProducts().then(() => {
+      const featuredGrid = document.getElementById("featured-grid");
+      const featured = PRODUCTS.filter((p) => p.featured);
+      featuredGrid.innerHTML = featured.map(renderProductCard).join("");
+    });
 
     function renderProductCard(p) {
       const wished = isWishlisted(p.id) ? "active" : "";

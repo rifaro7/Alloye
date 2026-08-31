@@ -190,14 +190,16 @@
       filledEl.style.display = "none";
       emptyEl.style.display = "block";
     } else {
-      filledEl.style.display = "block";
-      emptyEl.style.display = "none";
-      renderSummary();
+      loadProducts().then(() => {
+        filledEl.style.display = "block";
+        emptyEl.style.display = "none";
+        renderSummary();
 
-      trackPixelEvent("InitiateCheckout", {
-        value: getCartTotal(),
-        currency: "BDT",
-        num_items: cart.reduce((sum, item) => sum + item.qty, 0)
+        trackPixelEvent("InitiateCheckout", {
+          value: getCartTotal(),
+          currency: "BDT",
+          num_items: cart.reduce((sum, item) => sum + item.qty, 0)
+        });
       });
     }
 

@@ -1,8 +1,11 @@
 // Alloyé — Product data
-// To add a real product later: copy one object below, change the fields,
-// and drop the matching photo into /images/products/
+// Real products are managed in WooCommerce (cms.alloye.shop/wp-admin) and
+// loaded live via get-products.php. The list below is only a fallback,
+// used if that request fails (e.g. the backend is briefly unreachable).
 
-const PRODUCTS = [
+let PRODUCTS = [];
+
+const FALLBACK_PRODUCTS = [
   {
     id: 1,
     name: "Lotus Kemp Necklace",
@@ -396,4 +399,17 @@ function formatPrice(amount) {
 
 function getProductById(id) {
   return PRODUCTS.find((p) => String(p.id) === String(id));
+}
+
+async function loadProducts() {
+  try {
+    const res = await fetch("get-products.php");
+    if (!res.ok) throw new Error("Bad response");
+    const data = await res.json();
+    if (!Array.isArray(data) || !data.length) throw new Error("Empty response");
+    PRODUCTS = data;
+  } catch (err) {
+    console.error("Could not load live products, using fallback data.", err);
+    PRODUCTS = FALLBACK_PRODUCTS;
+  }
 }

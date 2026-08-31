@@ -9,13 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 require __DIR__ . "/config.php";
 
-// Maps this site's local product IDs (js/products.js) to the real WooCommerce product IDs
-$PRODUCT_ID_MAP = [
-    1 => 17, 2 => 58, 3 => 19, 4 => 21, 5 => 59, 6 => 23, 7 => 25, 8 => 27,
-    9 => 29, 10 => 60, 11 => 31, 12 => 61, 13 => 33, 14 => 35, 15 => 37,
-    16 => 39, 18 => 41, 20 => 43, 21 => 45, 22 => 47, 23 => 49, 24 => 51,
-    25 => 53, 26 => 55, 27 => 57,
-];
+// Product IDs sent from the frontend are real WooCommerce product IDs
+// (the site loads its catalog live from get-products.php), so no local-to-Woo
+// ID mapping is needed here.
 
 $DELIVERY_LABELS = [
     "inside" => "Inside Dhaka",
@@ -54,14 +50,8 @@ if (empty($customer["name"]) || empty($customer["email"]) || empty($customer["ph
 // --- Build WooCommerce line items ---
 $lineItems = [];
 foreach ($body["items"] as $item) {
-    $localId = intval($item["id"]);
-    if (!isset($PRODUCT_ID_MAP[$localId])) {
-        http_response_code(400);
-        echo json_encode(["error" => "Unknown product id: $localId"]);
-        exit;
-    }
     $lineItems[] = [
-        "product_id" => $PRODUCT_ID_MAP[$localId],
+        "product_id" => intval($item["id"]),
         "quantity" => max(1, intval($item["qty"])),
     ];
 }

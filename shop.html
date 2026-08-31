@@ -250,8 +250,10 @@
       renderShop();
     });
 
-    applyFilterButtons();
-    renderShop();
+    loadProducts().then(() => {
+      applyFilterButtons();
+      renderShop();
+    });
   </script>
 </body>
 </html>
