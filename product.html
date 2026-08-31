@@ -208,7 +208,7 @@
         <div class="pd-meta">
           <span>SKU</span><span>ALY-${String(product.id).padStart(4, "0")}</span>
           <span>Material</span><span>${product.material}</span>
-          <span>Availability</span><span>In Stock</span>
+          <span>Availability</span><span style="${product.inStock === false ? 'color:#b3261e;' : ''}">${product.inStock === false ? 'Out of Stock' : 'In Stock'}</span>
         </div>
         ${product.styles ? `
         <div class="form-group">
@@ -227,8 +227,8 @@
           <button class="wishlist-toggle ${wished}" style="position:static;" onclick="handleWishlistClick(event, ${product.id})">&#9825;</button>
         </div>
         <div class="pd-actions">
-          <button class="btn btn-primary" onclick="addProductToCart()">Add to Cart</button>
-          <button class="btn btn-gold" onclick="buyNow()">Buy Now</button>
+          <button class="btn btn-primary" onclick="addProductToCart()" ${product.inStock === false ? "disabled" : ""}>${product.inStock === false ? "Out of Stock" : "Add to Cart"}</button>
+          <button class="btn btn-gold" onclick="buyNow()" ${product.inStock === false ? "disabled" : ""}>Buy Now</button>
         </div>
         <div class="pd-accordion">
           <div class="accordion-item open">

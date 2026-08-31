@@ -129,33 +129,6 @@
     </div>
   </section>
 
-  <!-- Reviews -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Customer Reviews</p>
-        <h2>Loved, Every Day</h2>
-      </div>
-      <div class="review-grid">
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"I wear my necklace every single day, even in the shower — it still looks brand new. Exactly what I wanted."</p>
-          <div class="review-author"><strong>Nusrat J.</strong><span class="review-verified">Verified Buyer</span></div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"The earrings are so well made for the price. Delivery to Dhaka was quick and the packaging was lovely."</p>
-          <div class="review-author"><strong>Farhana R.</strong><span class="review-verified">Verified Buyer</span></div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Bought the Lotus Kemp necklace for a wedding and got so many compliments. Ordering was easy too."</p>
-          <div class="review-author"><strong>Tasnim A.</strong><span class="review-verified">Verified Buyer</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Newsletter -->
   <section class="section">
     <div class="container text-center" style="max-width:520px; margin:0 auto;">
@@ -252,7 +225,7 @@
             <a href="product.html?id=${p.id}"><h3>${p.name}</h3></a>
             <p class="price">${oldPrice}${formatPrice(p.price)}</p>
             <div class="product-actions">
-              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
+              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)" ${p.inStock === false ? "disabled" : ""}>${p.inStock === false ? "Out of Stock" : "Add to Cart"}</button>
             </div>
           </div>
         </div>

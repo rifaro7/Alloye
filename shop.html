@@ -224,7 +224,7 @@
             <a href="product.html?id=${p.id}"><h3>${p.name}</h3></a>
             <p class="price">${oldPrice}${formatPrice(p.price)}</p>
             <div class="product-actions">
-              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)">Add to Cart</button>
+              <button class="btn btn-primary btn-block" onclick="addToCart(${p.id}, 1)" ${p.inStock === false ? "disabled" : ""}>${p.inStock === false ? "Out of Stock" : "Add to Cart"}</button>
             </div>
           </div>
         </div>
