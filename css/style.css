@@ -559,7 +559,8 @@ h1, h2, h3, h4 {
   color: var(--color-gold-dark);
 }
 
-.price .old-price {
+.price .old-price,
+.pd-price .old-price {
   color: var(--color-text-soft);
   text-decoration: line-through;
   margin-right: 8px;
