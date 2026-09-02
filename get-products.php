@@ -28,7 +28,20 @@ function wcFetch($path) {
 
 $products = wcFetch("/wp-json/wc/v3/products?per_page=100&status=publish");
 
-$result = array_map(function ($p) use ($CATEGORY_SLUG_MAP) {
+// Figure out real best sellers from actual order history, instead of a manually-assigned label.
+$BEST_SELLER_THRESHOLD = 5; // minimum units sold to earn the badge
+$soldCounts = [];
+$orders = wcFetch("/wp-json/wc/v3/orders?per_page=100&status=processing,completed");
+if (is_array($orders)) {
+    foreach ($orders as $order) {
+        foreach ($order["line_items"] as $item) {
+            $pid = $item["product_id"];
+            $soldCounts[$pid] = ($soldCounts[$pid] ?? 0) + $item["quantity"];
+        }
+    }
+}
+
+$result = array_map(function ($p) use ($CATEGORY_SLUG_MAP, $soldCounts, $BEST_SELLER_THRESHOLD) {
     $meta = [];
     foreach ($p["meta_data"] as $m) {
         $meta[$m["key"]] = $m["value"];
@@ -43,13 +56,22 @@ $result = array_map(function ($p) use ($CATEGORY_SLUG_MAP) {
     $regularPrice = floatval($p["regular_price"]);
     $salePrice = $p["sale_price"] !== "" ? floatval($p["sale_price"]) : null;
 
-    // Auto-show a "New" badge for anything published in the last 30 days,
-    // unless a different badge was set manually.
-    $badge = $meta["badge"] ?? "";
-    if ($badge === "") {
-        $daysOld = (time() - strtotime($p["date_created"])) / 86400;
-        if ($daysOld <= 30) {
-            $badge = "New";
+    // Badge priority: real "Best Seller" status (based on actual units sold) first,
+    // then any manually-set badge (e.g. "Limited Edition"), then auto "New" for
+    // anything published in the last 30 days.
+    $unitsSold = $soldCounts[$p["id"]] ?? 0;
+    if ($unitsSold >= $BEST_SELLER_THRESHOLD) {
+        $badge = "Best Seller";
+    } else {
+        $badge = $meta["badge"] ?? "";
+        if ($badge === "Best Seller") {
+            $badge = ""; // don't trust a manually-set claim that isn't backed by real sales
+        }
+        if ($badge === "") {
+            $daysOld = (time() - strtotime($p["date_created"])) / 86400;
+            if ($daysOld <= 30) {
+                $badge = "New";
+            }
         }
     }
 
