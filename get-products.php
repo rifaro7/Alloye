@@ -43,6 +43,16 @@ $result = array_map(function ($p) use ($CATEGORY_SLUG_MAP) {
     $regularPrice = floatval($p["regular_price"]);
     $salePrice = $p["sale_price"] !== "" ? floatval($p["sale_price"]) : null;
 
+    // Auto-show a "New" badge for anything published in the last 30 days,
+    // unless a different badge was set manually.
+    $badge = $meta["badge"] ?? "";
+    if ($badge === "") {
+        $daysOld = (time() - strtotime($p["date_created"])) / 86400;
+        if ($daysOld <= 30) {
+            $badge = "New";
+        }
+    }
+
     return [
         "id" => $p["id"],
         "name" => $p["name"],
@@ -51,7 +61,7 @@ $result = array_map(function ($p) use ($CATEGORY_SLUG_MAP) {
         "price" => $salePrice !== null ? $salePrice : $regularPrice,
         "oldPrice" => $salePrice !== null ? $regularPrice : null,
         "image" => !empty($p["images"]) ? $p["images"][0]["src"] : "images/products/placeholder.svg",
-        "badge" => $meta["badge"] ?? "",
+        "badge" => $badge,
         "featured" => ($meta["featured_home"] ?? "") === "true",
         "description" => wp_strip_tags($p["description"]),
         "care" => $meta["care"] ?? "",
