@@ -56,6 +56,41 @@ foreach ($body["items"] as $item) {
     ];
 }
 
+// --- Verify every item is actually in stock right now, server-side.
+// The frontend already disables "Add to Cart" for out-of-stock items, but that
+// alone isn't enough: a product can go out of stock after it was added to a
+// cart, or the page shown to the customer can be stale. This is the check that
+// actually prevents an out-of-stock order from being placed. ---
+$unavailable = [];
+foreach ($lineItems as $item) {
+    $ch = curl_init(WC_SITE . "/wp-json/wc/v3/products/" . $item["product_id"]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERPWD, WC_KEY . ":" . WC_SECRET);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    $productResponse = curl_exec($ch);
+    $product = json_decode($productResponse, true);
+
+    if (!$product || isset($product["code"])) {
+        $unavailable[] = "Item #" . $item["product_id"] . " (no longer available)";
+        continue;
+    }
+    if ($product["stock_status"] !== "instock") {
+        $unavailable[] = $product["name"];
+        continue;
+    }
+    if ($product["manage_stock"] && $product["stock_quantity"] !== null && $product["stock_quantity"] < $item["quantity"]) {
+        $unavailable[] = $product["name"] . " (only " . $product["stock_quantity"] . " left)";
+    }
+}
+
+if (!empty($unavailable)) {
+    http_response_code(409);
+    echo json_encode([
+        "error" => "Some items in your cart are no longer available: " . implode(", ", $unavailable) . ". Please update your cart and try again.",
+    ]);
+    exit;
+}
+
 $addr = $body["address"];
 $nameParts = explode(" ", trim($customer["name"]), 2);
 $firstName = $nameParts[0];

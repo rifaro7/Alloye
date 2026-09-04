@@ -297,7 +297,9 @@
 
         window.location.href = "order-confirmation.html?order=" + order.id;
       } catch (err) {
-        errorEl.textContent = "We couldn't place your order right now. Please try again, or contact us if this keeps happening.";
+        errorEl.textContent = err.message && err.message !== "Could not place order"
+          ? err.message
+          : "We couldn't place your order right now. Please try again, or contact us if this keeps happening.";
         errorEl.style.display = "block";
         submitBtn.disabled = false;
         submitBtn.textContent = "Place Order";
