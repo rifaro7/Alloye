@@ -97,7 +97,7 @@
   <script src="js/main.js?v=2"></script>
   <script>
     const DELIVERY_INSIDE_DHAKA = 80;
-    let couponDiscount = 0;
+    let appliedCoupon = JSON.parse(localStorage.getItem("alloye_coupon") || "null");
 
     function renderCart() {
       const cart = getCart();
@@ -142,7 +142,13 @@
 
       const subtotal = getCartTotal();
       const delivery = DELIVERY_INSIDE_DHAKA;
-      const discountAmount = Math.round(subtotal * couponDiscount);
+      let discountAmount = 0;
+      if (appliedCoupon) {
+        discountAmount = appliedCoupon.discountType === "percent"
+          ? Math.round(subtotal * (appliedCoupon.amount / 100))
+          : Math.round(appliedCoupon.amount);
+        discountAmount = Math.min(discountAmount, subtotal);
+      }
       const total = subtotal + delivery - discountAmount;
 
       document.getElementById("summary-subtotal").textContent = formatPrice(subtotal);
@@ -176,17 +182,42 @@
       renderCart();
     }
 
-    function applyCoupon() {
-      const code = document.getElementById("coupon-input").value.trim().toUpperCase();
-      if (code === "WELCOME10") {
-        couponDiscount = 0.1;
-      } else {
-        couponDiscount = 0;
-        alert("Invalid or expired coupon code.");
+    async function applyCoupon() {
+      const code = document.getElementById("coupon-input").value.trim();
+      if (!code) return;
+
+      const button = document.querySelector(".coupon-row button");
+      button.disabled = true;
+      button.textContent = "Checking...";
+
+      try {
+        const res = await fetch("check-coupon.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, subtotal: getCartTotal() })
+        });
+        const result = await res.json();
+
+        if (!result.valid) {
+          appliedCoupon = null;
+          localStorage.removeItem("alloye_coupon");
+          alert(result.error || "Invalid or expired coupon code.");
+        } else {
+          appliedCoupon = { code, discountType: result.discountType, amount: result.amount };
+          localStorage.setItem("alloye_coupon", JSON.stringify(appliedCoupon));
+        }
+      } catch (err) {
+        alert("Could not check that coupon right now. Please try again.");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Apply";
+        renderCart();
       }
-      renderCart();
     }
 
+    if (appliedCoupon) {
+      document.getElementById("coupon-input").value = appliedCoupon.code;
+    }
     loadProducts().then(renderCart);
   </script>
 </body>

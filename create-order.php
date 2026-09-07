@@ -147,6 +147,15 @@ $orderPayload = [
     ],
 ];
 
+// If a coupon code was applied at checkout, let WooCommerce itself validate and
+// apply it — this is the authoritative check, not just trusting what the
+// frontend calculated.
+if (!empty($body["couponCode"])) {
+    $orderPayload["coupon_lines"] = [
+        ["code" => trim($body["couponCode"])],
+    ];
+}
+
 // --- Create the order in WooCommerce ---
 $ch = curl_init(WC_SITE . "/wp-json/wc/v3/orders");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

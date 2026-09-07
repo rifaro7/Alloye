@@ -152,6 +152,7 @@
           <div id="summary-items"></div>
           <div class="summary-row"><span>Subtotal</span><span id="summary-subtotal">৳0</span></div>
           <div class="summary-row"><span>Delivery</span><span id="summary-delivery">৳80</span></div>
+          <div class="summary-row" id="discount-row" style="display:none;"><span>Discount</span><span id="summary-discount">-৳0</span></div>
           <div class="summary-row total"><span>Total</span><span id="summary-total">৳0</span></div>
           <p id="checkout-error" style="display:none; color:#b3261e; font-size:0.9rem; margin-top:16px;"></p>
           <button type="submit" class="btn btn-primary btn-block mt-40" id="place-order-btn">Place Order</button>
@@ -219,15 +220,37 @@
       updateTotals();
     }
 
+    function getAppliedCoupon() {
+      return JSON.parse(localStorage.getItem("alloye_coupon") || "null");
+    }
+
     function updateTotals() {
       const subtotal = getCartTotal();
       const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
       const delivery = DELIVERY_FEES[deliveryMethod];
-      const total = subtotal + delivery;
+
+      const coupon = getAppliedCoupon();
+      let discountAmount = 0;
+      if (coupon) {
+        discountAmount = coupon.discountType === "percent"
+          ? Math.round(subtotal * (coupon.amount / 100))
+          : Math.round(coupon.amount);
+        discountAmount = Math.min(discountAmount, subtotal);
+      }
+
+      const total = subtotal + delivery - discountAmount;
 
       document.getElementById("summary-subtotal").textContent = formatPrice(subtotal);
       document.getElementById("summary-delivery").textContent = formatPrice(delivery);
       document.getElementById("summary-total").textContent = formatPrice(total);
+
+      const discountRow = document.getElementById("discount-row");
+      if (discountAmount > 0) {
+        discountRow.style.display = "flex";
+        document.getElementById("summary-discount").textContent = "-" + formatPrice(discountAmount);
+      } else {
+        discountRow.style.display = "none";
+      }
     }
 
     document.querySelectorAll('input[name="delivery"], input[name="payment"]').forEach((input) => {
@@ -272,8 +295,15 @@
         }),
         subtotal: getCartTotal(),
         delivery: DELIVERY_FEES[document.querySelector('input[name="delivery"]:checked').value],
-        total: getCartTotal() + DELIVERY_FEES[document.querySelector('input[name="delivery"]:checked').value]
+        couponCode: (getAppliedCoupon() || {}).code || null,
       };
+      const _discount = (() => {
+        const coupon = getAppliedCoupon();
+        if (!coupon) return 0;
+        const amt = coupon.discountType === "percent" ? Math.round(order.subtotal * (coupon.amount / 100)) : Math.round(coupon.amount);
+        return Math.min(amt, order.subtotal);
+      })();
+      order.total = order.subtotal + order.delivery - _discount;
 
       try {
         const res = await fetch("create-order.php", {
@@ -294,6 +324,7 @@
         localStorage.setItem("alloye_orders", JSON.stringify(orders));
 
         saveCart([]);
+        localStorage.removeItem("alloye_coupon");
 
         window.location.href = "order-confirmation.html?order=" + order.id;
       } catch (err) {
