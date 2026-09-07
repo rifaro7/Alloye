@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alloyé Build Report</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2f3ef;
+    --surface:#ffffff;
+    --surface-2:#eceee8;
+    --border:#dcdfd7;
+    --text:#1a1c19;
+    --text-soft:#5c635a;
+    --text-faint:#8a9086;
+    --accent:#93641b;
+    --accent-soft:#c99a4a;
+    --accent-wash:#f0e6d2;
+    --good:#3f7a4f;
+    --warn:#a15a1f;
+    --mono-bg:#e8e9e2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14161a; --surface:#1b1e23; --surface-2:#20242a; --border:#2c3038;
+      --text:#e8e7e1; --text-soft:#a2a8ac; --text-faint:#6f7680;
+      --accent:#d3a656; --accent-soft:#8a6a2e; --accent-wash:#2b2418;
+      --good:#6bbf83; --warn:#e0a05a; --mono-bg:#22262c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --surface:#1b1e23; --surface-2:#20242a; --border:#2c3038;
+    --text:#e8e7e1; --text-soft:#a2a8ac; --text-faint:#6f7680;
+    --accent:#d3a656; --accent-soft:#8a6a2e; --accent-wash:#2b2418;
+    --good:#6bbf83; --warn:#e0a05a; --mono-bg:#22262c;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.6;
+  }
+  ::selection{ background:var(--accent-wash); color:var(--text); }
+  .doc{ max-width:840px; margin:0 auto; padding:56px 24px 96px; }
+  .masthead{ border-bottom:1px solid var(--border); padding-bottom:32px; margin-bottom:32px; }
+  .masthead .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:0.72rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .masthead .eyebrow::before{
+    content:""; width:8px;height:8px; background:var(--accent); display:inline-block; border-radius:1px; transform:rotate(45deg);
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif; font-weight:560; font-size:clamp(2.1rem, 5vw, 3rem);
+    line-height:1.06; letter-spacing:-0.01em; margin:0 0 12px; text-wrap:balance;
+  }
+  .masthead .dek{ font-size:1.05rem; color:var(--text-soft); max-width:56ch; margin:0; }
+  .spec{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border);
+    border:1px solid var(--border); margin:28px 0 8px; font-family:"IBM Plex Mono",monospace; font-size:0.82rem;
+  }
+  .spec-item{ background:var(--surface); padding:12px 16px; display:flex; flex-direction:column; gap:4px; }
+  .spec-item .k{ color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; font-size:0.68rem; }
+  .spec-item .v{ color:var(--text); }
+  .spec-item .v a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+  .spec-item .v a:hover{ color:var(--accent-soft); }
+  .pill{ display:inline-flex; align-items:center; gap:6px; font-family:"IBM Plex Mono",monospace; font-size:0.7rem; padding:2px 8px; border-radius:3px; width:fit-content; }
+  .pill.live{ background:color-mix(in srgb, var(--good) 16%, transparent); color:var(--good); }
+  .pill.soon{ background:color-mix(in srgb, var(--warn) 16%, transparent); color:var(--warn); }
+  .toc{ margin:40px 0 8px; padding:20px 22px; background:var(--surface); border:1px solid var(--border); }
+  .toc h2{ margin:0 0 12px; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint); font-family:"IBM Plex Mono",monospace; font-weight:500;}
+  .toc ol{ list-style:none; margin:0; padding:0; columns:2; column-gap:28px; }
+  .toc li{ break-inside:avoid; margin-bottom:8px; }
+  .toc a{ color:var(--text-soft); text-decoration:none; font-size:0.9rem; display:flex; gap:8px; }
+  .toc a:hover{ color:var(--accent); }
+  .toc a .n{ font-family:"IBM Plex Mono",monospace; color:var(--accent); font-size:0.78rem; flex-shrink:0; }
+  section{ margin-top:56px; }
+  section .tag{ font-family:"IBM Plex Mono",monospace; font-size:0.7rem; letter-spacing:0.1em; color:var(--accent); margin-bottom:6px; }
+  h2{ font-size:1.5rem; margin:0 0 16px; letter-spacing:-0.01em; text-wrap:balance; }
+  h3{ font-size:1.05rem; margin:28px 0 10px; color:var(--text); }
+  p{ margin:0 0 14px; max-width:68ch; color:var(--text); }
+  p.lede{ color:var(--text-soft); }
+  ul.clean, ol.clean{ margin:0 0 16px; padding-left:20px; }
+  ul.clean li, ol.clean li{ margin-bottom:8px; max-width:64ch; }
+  code, .mono{ font-family:"IBM Plex Mono",monospace; font-size:0.86em; background:var(--mono-bg); padding:1px 5px; border-radius:3px; }
+  .flow{ list-style:none; margin:0 0 20px; padding:0; counter-reset:flow; }
+  .flow li{ counter-increment:flow; display:grid; grid-template-columns:28px 1fr; gap:14px; padding:12px 0; border-top:1px solid var(--border); }
+  .flow li:first-child{ border-top:none; }
+  .flow li::before{
+    content:counter(flow); font-family:"IBM Plex Mono",monospace; font-size:0.78rem; color:var(--accent);
+    background:var(--accent-wash); width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+    border-radius:50%; align-self:start;
+  }
+  .flow .body{ padding-top:3px; }
+  .flow strong{ display:block; margin-bottom:2px; }
+  .flow span{ color:var(--text-soft); font-size:0.93rem; }
+  .filetable{ width:100%; border-collapse:collapse; margin:14px 0 22px; font-size:0.88rem; }
+  .filetable th{
+    text-align:left; font-family:"IBM Plex Mono",monospace; font-size:0.68rem; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); border-bottom:1px solid var(--border); padding:0 12px 8px 0;
+  }
+  .filetable td{ padding:9px 12px 9px 0; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-soft); }
+  .filetable td:first-child{ color:var(--text); white-space:nowrap; }
+  .filetable tr:last-child td{ border-bottom:none; }
+  .fixlog{ margin:0; padding:0; list-style:none; }
+  .fixlog li{ padding:14px 0; border-top:1px solid var(--border); display:grid; grid-template-columns:1fr; gap:4px; }
+  .fixlog li:first-child{ border-top:none; }
+  .fixlog .problem{ color:var(--warn); font-size:0.78rem; font-family:"IBM Plex Mono",monospace; }
+  .fixlog .fix{ color:var(--text); }
+  .diagram{ background:var(--surface); border:1px solid var(--border); padding:20px; margin:20px 0 28px; overflow-x:auto; text-align:center; }
+  .diagram .mermaid{ display:inline-block; }
+  .diagram figcaption{ margin-top:12px; font-size:0.8rem; color:var(--text-faint); font-family:"IBM Plex Mono",monospace; text-align:left; }
+  blockquote{ margin:0 0 18px; padding:12px 16px; border-left:2px solid var(--accent); background:var(--surface); color:var(--text-soft); font-size:0.92rem; }
+  footer{
+    margin-top:72px; padding-top:24px; border-top:1px solid var(--border); font-family:"IBM Plex Mono",monospace;
+    font-size:0.76rem; color:var(--text-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+  footer a{ color:var(--text-faint); }
+  @media (max-width:640px){
+    .spec{ grid-template-columns:1fr; }
+    .toc ol{ columns:1; }
+    .flow li{ grid-template-columns:24px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <div class="masthead">
+    <div class="eyebrow">Internal build documentation — ALY-DOC-01</div>
+    <h1>How Alloyé Was Built</h1>
+    <p class="dek">A complete technical record of the Alloyé jewellery store: the architecture, the two systems behind it, the order pipeline, and every fix made before launch — kept as a reference for future changes.</p>
+
+    <div class="spec">
+      <div class="spec-item"><span class="k">Storefront</span><span class="v"><a href="https://alloye.shop" target="_blank" rel="noopener">alloye.shop</a></span></div>
+      <div class="spec-item"><span class="k">Admin backend</span><span class="v"><a href="https://cms.alloye.shop" target="_blank" rel="noopener">cms.alloye.shop</a> (WordPress · WooCommerce)</span></div>
+      <div class="spec-item"><span class="k">Hosting</span><span class="v">Namecheap Stellar Plus — shared, cPanel/LiteSpeed</span></div>
+      <div class="spec-item"><span class="k">Repository</span><span class="v"><a href="https://github.com/rifaro7/Alloye" target="_blank" rel="noopener">github.com/rifaro7/Alloye</a> — public, All Rights Reserved</span></div>
+      <div class="spec-item"><span class="k">Payments</span><span class="v"><span class="pill live">● live</span> Cash on Delivery &nbsp; <span class="pill soon">● soon</span> bKash</span></div>
+      <div class="spec-item"><span class="k">Analytics</span><span class="v">Meta Pixel + Google Analytics (G-KNRRP21V1G)</span></div>
+      <div class="spec-item"><span class="k">Frontend stack</span><span class="v">Static HTML / CSS / vanilla JS — no framework</span></div>
+      <div class="spec-item"><span class="k">Hosting renews</span><span class="v">22 Sep 2026 — auto-renew off</span></div>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#architecture"><span class="n">01</span> Architecture</a></li>
+      <li><a href="#frontend"><span class="n">02</span> Frontend</a></li>
+      <li><a href="#backend"><span class="n">03</span> Backend connector scripts</a></li>
+      <li><a href="#orderflow"><span class="n">04</span> How an order is placed</a></li>
+      <li><a href="#coupons"><span class="n">05</span> Coupons &amp; discounts</a></li>
+      <li><a href="#accounts"><span class="n">06</span> Accounts &amp; login</a></li>
+      <li><a href="#marketing"><span class="n">07</span> SEO &amp; marketing tracking</a></li>
+      <li><a href="#security"><span class="n">08</span> Security decisions</a></li>
+      <li><a href="#deploy"><span class="n">09</span> Hosting &amp; deployment</a></li>
+      <li><a href="#fixes"><span class="n">10</span> Pre-launch fix log</a></li>
+      <li><a href="#limits"><span class="n">11</span> Known limitations</a></li>
+    </ol>
+  </nav>
+
+  <section id="architecture">
+    <div class="tag">ALY-DOC-01</div>
+    <h2>Architecture — headless by design</h2>
+    <p class="lede">Alloyé runs as two separate systems that never let the customer see the second one.</p>
+    <p>The storefront customers browse is a set of static, hand-coded HTML pages. It calls a small layer of PHP scripts, which in turn talk to a WordPress + WooCommerce installation on a separate subdomain. WooCommerce is used purely as a database and an admin dashboard — its own theme and checkout are never rendered to a customer. This split was the starting requirement: the store owner needed to add products, change prices, and manage stock from a familiar dashboard, without ever touching code.</p>
+
+    <figure class="diagram">
+      <div class="mermaid">
+flowchart LR
+    A["Customer browser<br/>alloye.shop"] -->|"fetch()"| B["PHP connector scripts<br/>get-products.php · create-order.php<br/>check-coupon.php · my-orders.php"]
+    B -->|"REST API, key + secret"| C["WooCommerce<br/>cms.alloye.shop"]
+    C --> D[("MySQL<br/>products · orders · coupons")]
+    E["Store owner"] -->|"wp-admin dashboard"| C
+    B -.->|"order confirmation"| F["Customer inbox<br/>via Gmail SMTP"]
+      </div>
+      <figcaption>Customer traffic never touches WordPress directly — every request is brokered by a PHP script under alloye.shop.</figcaption>
+    </figure>
+
+    <p>The only two-way trust relationship is between the PHP scripts and WooCommerce's REST API, authenticated with a consumer key and secret stored in a single file that is never shipped to the browser or committed to source control.</p>
+  </section>
+
+  <section id="frontend">
+    <div class="tag">ALY-DOC-02</div>
+    <h2>Frontend — static pages, no build step</h2>
+    <p class="lede">Seventeen hand-written HTML pages, one shared stylesheet, four JavaScript modules. No React, no bundler — deliberately, since the whole point is a page that loads instantly on a mid-range Bangladeshi phone connection.</p>
+
+    <table class="filetable">
+      <tr><th>Page</th><th>Job</th></tr>
+      <tr><td>index.html</td><td>Homepage — hero, category entry points</td></tr>
+      <tr><td>shop.html</td><td>Full catalogue with category / search / sort filters</td></tr>
+      <tr><td>product.html</td><td>Product detail — gallery zoom, related pieces, structured data</td></tr>
+      <tr><td>cart.html / checkout.html</td><td>Bag review and the order form itself</td></tr>
+      <tr><td>account.html / order-tracking.html</td><td>Sign in, order history, delivery status</td></tr>
+      <tr><td>wishlist.html</td><td>Saved items, stored client-side</td></tr>
+      <tr><td>about / contact / faq / shipping / returns / privacy / terms</td><td>Store policy and trust pages</td></tr>
+      <tr><td>order-confirmation.html / 404.html</td><td>Post-purchase receipt and error page</td></tr>
+    </table>
+
+    <h3>Shared modules</h3>
+    <ul class="clean">
+      <li><code>products.js</code> — fetches the live catalogue from <code>get-products.php</code> and renders product cards and the detail view.</li>
+      <li><code>cart.js</code> — the cart and wishlist live entirely in the browser's <code>localStorage</code>; no login is required to shop.</li>
+      <li><code>main.js</code> — navigation, the search overlay, and small interface behaviour shared across pages.</li>
+      <li><code>pixel.js</code> — fires Meta Pixel events (see §07).</li>
+    </ul>
+    <p>Typography is Cormorant Garamond paired with Jost, loaded once via Google Fonts. Every stylesheet and script is loaded with a <code>?v=2</code> version tag — the host's 7-day browser cache header was silently hiding CSS fixes from returning visitors until this was added.</p>
+  </section>
+
+  <section id="backend">
+    <div class="tag">ALY-DOC-03</div>
+    <h2>Backend connector scripts</h2>
+    <p class="lede">A small set of framework-free PHP files, each doing one job, each talking to WooCommerce over cURL with Basic Auth.</p>
+
+    <table class="filetable">
+      <tr><th>Script</th><th>Responsibility</th></tr>
+      <tr><td>get-products.php</td><td>Reads the live catalogue and computes badges (Best Seller from real sales count, New from listing age)</td></tr>
+      <tr><td>create-order.php</td><td>Validates stock, applies coupons, places the order, emails the receipt</td></tr>
+      <tr><td>check-coupon.php</td><td>Validates a coupon code against WooCommerce before it's shown as a discount</td></tr>
+      <tr><td>register.php / my-orders.php</td><td>Customer sign-up and order history, authenticated by JWT</td></tr>
+      <tr><td>send-message.php / subscribe.php</td><td>Contact form and newsletter sign-up</td></tr>
+      <tr><td>smtp-mailer.php</td><td>A dependency-free SMTP client over Gmail — the host's built-in <code>mail()</code> was unauthenticated and unreliable</td></tr>
+    </table>
+
+    <p>Every script requires <code>config.php</code>, a single file holding the WooCommerce API key/secret, the store's notification email, and the SMTP credentials. It is blocked from direct web access by <code>.htaccess</code> and excluded from Git — see §08.</p>
+  </section>
+
+  <section id="orderflow">
+    <div class="tag">ALY-DOC-04</div>
+    <h2>How an order is actually placed</h2>
+    <p class="lede">The frontend's job is to look right. The backend's job is to not trust it — every check that matters is repeated server-side.</p>
+
+    <ol class="flow">
+      <li><span class="body"><strong>Cart review</strong><span>Items, quantities and any applied coupon are read from <code>localStorage</code> on cart.html.</span></span></li>
+      <li><span class="body"><strong>Checkout form</strong><span>Customer enters contact details, address, delivery area and payment method (Cash on Delivery today).</span></span></li>
+      <li><span class="body"><strong>Live stock re-check</strong><span><code>create-order.php</code> re-fetches every item from WooCommerce and rejects the order with a clear message if anything has gone out of stock since it was added to the cart.</span></span></li>
+      <li><span class="body"><strong>Customer lookup</strong><span>If the checkout email matches an existing WooCommerce customer, the order is linked to that account automatically.</span></span></li>
+      <li><span class="body"><strong>Coupon applied by WooCommerce, not the browser</strong><span>The coupon code is passed to WooCommerce's own <code>coupon_lines</code>, so WooCommerce — not the frontend's arithmetic — decides the final discount.</span></span></li>
+      <li><span class="body"><strong>Order created</strong><span>A real WooCommerce order is created with status "processing," billing and shipping details, and the chosen delivery method.</span></span></li>
+      <li><span class="body"><strong>Confirmation email sent</strong><span>The customer receives an order number, item list, total and a tracking link, sent through the custom SMTP mailer.</span></span></li>
+      <li><span class="body"><strong>Cart cleared</strong><span>The frontend clears the local cart and coupon, and redirects to order-confirmation.html.</span></span></li>
+    </ol>
+    <blockquote>The out-of-stock check exists because the "Add to Cart" button being disabled isn't enough — a product can sell out <em>after</em> it was added to someone else's cart. This was tested against a real out-of-stock product before launch.</blockquote>
+  </section>
+
+  <section id="coupons">
+    <div class="tag">ALY-DOC-05</div>
+    <h2>Coupons &amp; discounts</h2>
+    <p>Coupons are ordinary WooCommerce coupons — the store owner creates one from the wp-admin dashboard (a percentage or fixed amount, with optional expiry, usage limit, and minimum spend) and it works on the live site immediately, with no code changes. On the cart page, <code>check-coupon.php</code> checks the code's validity and shows the discount; at checkout, the code travels with the order so WooCommerce applies the same discount authoritatively. This closed an earlier gap where a coupon looked applied on the cart page but was silently dropped by the time the real order was placed.</p>
+  </section>
+
+  <section id="accounts">
+    <div class="tag">ALY-DOC-06</div>
+    <h2>Accounts &amp; login</h2>
+    <p>Shopping never requires an account. Customers who do register authenticate against WordPress itself, via the JWT Authentication plugin — the site never stores or checks a password of its own. A signed-in customer sees their real order history and status on account.html, pulled live from WooCommerce. Password recovery links out to WordPress's own reset flow rather than a custom one, since that's the safer and already-hardened path.</p>
+  </section>
+
+  <section id="marketing">
+    <div class="tag">ALY-DOC-07</div>
+    <h2>SEO &amp; marketing tracking</h2>
+    <ul class="clean">
+      <li><strong>Meta Pixel</strong> — fires PageView, ViewContent, InitiateCheckout and Purchase events, ready for Facebook/Instagram ad retargeting.</li>
+      <li><strong>Google Analytics 4</strong> — a dedicated property under the store's own account (not a personal one), tracking real visitor behaviour separately from ad data.</li>
+      <li><strong>Structured data</strong> — each product page carries schema.org <code>Product</code> markup (price, currency, stock status), so Google search results can show price and availability directly.</li>
+      <li><strong>Open Graph tags, meta descriptions, sitemap.xml and robots.txt</strong> are set on every page.</li>
+    </ul>
+  </section>
+
+  <section id="security">
+    <div class="tag">ALY-DOC-08</div>
+    <h2>Security decisions</h2>
+    <ul class="clean">
+      <li>The WooCommerce API key/secret and SMTP password live only in <code>config.php</code> — blocked from direct browser access by <code>.htaccess</code>, and excluded from Git entirely (it has never been committed, even though the repository itself is public).</li>
+      <li>Stock and coupon validity are decided on the server on every order, never trusted from the browser.</li>
+      <li>Customer authentication is fully delegated to WordPress's own JWT plugin — no custom password handling exists anywhere in the connector scripts.</li>
+      <li>The GitHub repository is public for portfolio purposes but carries an <strong>All Rights Reserved</strong> license — visible code, no license to reuse it.</li>
+    </ul>
+  </section>
+
+  <section id="deploy">
+    <div class="tag">ALY-DOC-09</div>
+    <h2>Hosting &amp; deployment</h2>
+    <p>The domain and hosting both sit with Namecheap: <span class="mono">alloye.shop</span> on a Stellar Plus shared plan, with <span class="mono">cms.alloye.shop</span> as the WordPress subdomain on the same account. SSL is active on both. There is no CI/CD — a deploy is a manual step: changed files are zipped locally, uploaded through cPanel's File Manager, and extracted over the live <span class="mono">public_html</span> directory, overwriting what's there.</p>
+    <p>Hosting is due for renewal on <strong>22 September 2026</strong>; auto-renew is currently switched off, so this is a manual date to track.</p>
+  </section>
+
+  <section id="fixes">
+    <div class="tag">ALY-DOC-10</div>
+    <h2>Pre-launch fix log</h2>
+    <p class="lede">Issues found during a full pre-launch audit, and how each was actually resolved — kept here so the reasoning isn't lost.</p>
+    <ul class="fixlog">
+      <li><span class="problem">FOUND — inaccurate product claims</span><span class="fix">"Waterproof stainless steel," "hand-finished," and "designed in-house" were removed sitewide — no longer accurate once newer pieces were sourced wholesale.</span></li>
+      <li><span class="problem">FOUND — out-of-stock items were orderable</span><span class="fix">Added the server-side stock re-check in create-order.php described in §04; verified against a real sold-out product.</span></li>
+      <li><span class="problem">FOUND — coupon discount lost at checkout</span><span class="fix">Rebuilt the flow so the coupon code is sent with the order and applied by WooCommerce itself, not just calculated on the cart page.</span></li>
+      <li><span class="problem">FOUND — missing price strikethrough</span><span class="fix">Fixed CSS so the original price shows struck through on the product detail page, matching the shop grid.</span></li>
+      <li><span class="problem">FOUND — CSS/JS fixes not appearing for returning visitors</span><span class="fix">Traced to the host's 7-day cache header; solved permanently with versioned <code>?v=2</code> query strings.</span></li>
+      <li><span class="problem">FOUND — slow-loading product photos</span><span class="fix">Downloaded, compressed to WebP, and re-uploaded every bloated product image; some dropped from over 1.5 MB to under 100 KB.</span></li>
+      <li><span class="problem">FOUND — fabricated trust signals</span><span class="fix">Removed invented customer reviews and a "Best Seller" badge with no real sales behind it; badges are now computed from actual WooCommerce order data.</span></li>
+      <li><span class="problem">FOUND — no self-service password recovery</span><span class="fix">Added a "Forgot password?" link to WordPress's own reset flow.</span></li>
+      <li><span class="problem">FOUND — no order confirmation email</span><span class="fix">create-order.php now sends the customer a receipt through the custom SMTP mailer once the order is placed.</span></li>
+    </ul>
+  </section>
+
+  <section id="limits">
+    <div class="tag">ALY-DOC-11</div>
+    <h2>Known limitations</h2>
+    <ul class="clean">
+      <li><strong>bKash is not yet live</strong> — shown as "Coming Soon" in checkout; Cash on Delivery is the only working payment method today.</li>
+      <li><strong>Deployment is manual</strong> — there is no automatic pipeline from GitHub to the live server; every update is a hand-run upload.</li>
+      <li><strong>Shared hosting ceiling</strong> — Stellar Plus is sufficient for current traffic, but a real spike (a viral post, a large ad campaign) would be the first thing to outgrow it.</li>
+      <li><strong>No WhatsApp contact channel yet</strong> — identified as a likely high-value addition for Bangladeshi customers, not yet built.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Alloyé · internal reference document</span>
+    <span><a href="https://github.com/rifaro7/Alloye" target="_blank" rel="noopener">github.com/rifaro7/Alloye</a></span>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+</script>
+</body>
+</html>
