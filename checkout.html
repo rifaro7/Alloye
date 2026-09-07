@@ -16,6 +16,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=2" />
   <script src="js/pixel.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNRRP21V1G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KNRRP21V1G');
+  </script>
 </head>
 <body>
 
@@ -155,6 +163,10 @@
           <div class="summary-row" id="discount-row" style="display:none;"><span>Discount</span><span id="summary-discount">-৳0</span></div>
           <div class="summary-row total"><span>Total</span><span id="summary-total">৳0</span></div>
           <p id="checkout-error" style="display:none; color:#b3261e; font-size:0.9rem; margin-top:16px;"></p>
+          <label style="display:flex; align-items:flex-start; gap:8px; margin-top:20px; font-size:0.85rem; color:var(--color-text-soft); cursor:pointer;">
+            <input type="checkbox" id="agree-terms" required style="margin-top:3px;" />
+            <span>I agree to the <a href="terms.html" target="_blank" style="text-decoration:underline;">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" style="text-decoration:underline;">Privacy Policy</a>.</span>
+          </label>
           <button type="submit" class="btn btn-primary btn-block mt-40" id="place-order-btn">Place Order</button>
         </div>
       </form>

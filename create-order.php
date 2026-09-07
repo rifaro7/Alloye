@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 require __DIR__ . "/config.php";
+require __DIR__ . "/smtp-mailer.php";
 
 // Product IDs sent from the frontend are real WooCommerce product IDs
 // (the site loads its catalog live from get-products.php), so no local-to-Woo
@@ -176,6 +177,24 @@ if ($curlError || $httpCode >= 400) {
 }
 
 $order = json_decode($response, true);
+
+// Send the customer their own order confirmation, since WordPress's default
+// mail() is unreliable on this host and WooCommerce's built-in emails rely on it.
+$itemLines = "";
+foreach ($body["items"] as $item) {
+    $itemLines .= "- " . ($item["name"] ?? "Item #" . $item["id"]) . " x" . max(1, intval($item["qty"])) . "\n";
+}
+$confirmationBody = "Hi " . $firstName . ",\n\n"
+    . "Thank you for your order with Alloye. Here are your order details:\n\n"
+    . "Order Number: " . $order["number"] . "\n\n"
+    . "Items:\n" . $itemLines . "\n"
+    . "Total: BDT " . number_format(floatval($body["total"])) . "\n"
+    . "Payment Method: Cash on Delivery\n\n"
+    . "We will deliver to:\n" . $addressLine1 . ", " . ($addr["area"] ?? "") . ", " . ($addr["city"] ?? "") . "\n\n"
+    . "You can track your order anytime at https://alloye.shop/order-tracking.html?order=" . $order["id"] . "\n\n"
+    . "Thank you for shopping with Alloye.";
+
+smtpSendMail($customer["email"], "Your Alloye Order Confirmation #" . $order["number"], $confirmationBody);
 
 echo json_encode([
     "success" => true,

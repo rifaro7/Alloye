@@ -16,6 +16,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=2" />
   <script src="js/pixel.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNRRP21V1G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KNRRP21V1G');
+  </script>
 </head>
 <body>
 
@@ -270,6 +278,29 @@
       (p) => p.category === product.category && p.id !== product.id
     ).slice(0, 4);
     relatedGrid.innerHTML = related.map(renderProductCard).join("");
+
+    // Structured data so Google can show price/availability in search results
+    const ldScript = document.createElement("script");
+    ldScript.type = "application/ld+json";
+    ldScript.textContent = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.name,
+      "image": [product.image],
+      "description": product.description,
+      "sku": "ALY-" + String(product.id).padStart(4, "0"),
+      "material": product.material,
+      "offers": {
+        "@type": "Offer",
+        "url": window.location.href,
+        "priceCurrency": "BDT",
+        "price": product.price,
+        "availability": product.inStock === false
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock"
+      }
+    });
+    document.head.appendChild(ldScript);
     });
   </script>
 </body>

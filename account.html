@@ -16,6 +16,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=2" />
   <script src="js/pixel.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNRRP21V1G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KNRRP21V1G');
+  </script>
 </head>
 <body>
 
@@ -66,6 +74,9 @@
           <label for="loginPassword">Password</label>
           <input type="password" id="loginPassword" required />
         </div>
+        <p style="text-align:right; margin-bottom:16px;">
+          <a href="https://cms.alloye.shop/wp-login.php?action=lostpassword" target="_blank" rel="noopener" style="font-size:0.85rem; color:var(--color-text-soft); text-decoration:underline;">Forgot password?</a>
+        </p>
         <button type="submit" class="btn btn-primary btn-block" id="login-btn">Sign In</button>
         <p class="text-center" style="margin-top:16px; font-size:0.85rem; color:var(--color-text-soft);">
           New here? <a href="#" id="show-register" style="text-decoration:underline; color:var(--color-text);">Create an account</a>
