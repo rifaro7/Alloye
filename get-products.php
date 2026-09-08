@@ -29,7 +29,7 @@ function wcFetch($path) {
 $products = wcFetch("/wp-json/wc/v3/products?per_page=100&status=publish");
 
 // Figure out real best sellers from actual order history, instead of a manually-assigned label.
-$BEST_SELLER_THRESHOLD = 5; // minimum units sold to earn the badge
+$BEST_SELLER_THRESHOLD = 2; // minimum units sold to earn the badge
 $soldCounts = [];
 $orders = wcFetch("/wp-json/wc/v3/orders?per_page=100&status=processing,completed");
 if (is_array($orders)) {
